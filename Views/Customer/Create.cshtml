@@ -47,10 +47,18 @@
                 <input asp-for="EmailId" class="form-control" />
                 <span asp-validation-for="EmailId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CountryId" class="control-label"></label>
-                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.Countries" onchange="FillCities(this,'lstCity');"></select>
+            <div class="form-group btn-group col-12">
+                <div class="form-group">
+                    <label asp-for="CountryId" class="control-label"></label>
+                    <select id="lstCountryId" asp-for="CountryId" class="form-control" asp-items="ViewBag.Countries" onchange="FillCities(this,'lstCity');"></select>
+                </div>
+                <div class="col-1 mt-4">
+                    <button class="btn btn-success" onclick="CountryCreateModalForm();">
+                        +
+                    </button>
+                </div>
             </div>
+           
             <div class="form-group">
                 <label asp-for="CityId" class="control-label"></label>
                 <select id="lstCity" asp-for="CityId" class="form-control" asp-items="ViewBag.Cities"></select>
@@ -104,6 +112,17 @@
     }
     <script type="text/javascript">
 
-
+        function CountryCreateModalForm() {
+            //alert("here");
+            $.ajax(
+                {
+                    url: "/country/CreateModalForm",
+                    type: 'get',
+                    success: function(response){
+                        $("#DivCreateDialog").html(response);
+                        ShowCreateModalForm();
+                    }
+                });
+        }
     </script>
 }
