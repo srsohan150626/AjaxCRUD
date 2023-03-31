@@ -20,5 +20,8 @@ namespace AdvanceAjaxCRUD.Models
         public int CountryId { get; set; }
 
         public virtual Country Country { get; set; }
+        [NotMapped]
+        [MaxLength(75)]
+        public string CountryName { get; set; }
     }
 }

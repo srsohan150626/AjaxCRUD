@@ -2,6 +2,30 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+function CountryCreateModalForm() {
+    $.ajax(
+        {
+            url: "/country/CreateModalForm",
+            type: 'get',
+            success: function (response) {
+                $("#DivCreateDialog").html(response);
+                ShowCreateModalForm();
+            }
+        });
+}
+function CityCreateModalForm() {
+    var lstCountryCtrl = document.getElementById('lstCountryId');
+    var countryId = lstCountryCtrl.options[lstCountryCtrl.selectedIndex].value;
+    $.ajax(
+        {
+            url: "/city/CreateModalForm?countryid=" +countryId,
+            type: 'get',
+            success: function (response) {
+                $("#DivCreateDialog").html(response);
+                ShowCreateModalForm();
+            }
+        });
+}
 function FillCities(lstCountryCtrl, lstCityId) {
     var lstCities = $("#" + lstCityId);
     lstCities.empty();
@@ -52,6 +76,12 @@ function refreshCountryList() {
     var btnBack = document.getElementById('dupBackbtn');
     btnBack.click();
     FillCountries("lstCountryId");
+}
+function refreshCityList() {
+    var btnBack = document.getElementById('dupBackbtn');
+    btnBack.click();
+    var lstCountryCtrl = document.getElementById('lstCountryId');
+    FillCities(lstCountryCtrl, "lstCity");
 }
 function FillCountries(lstCountryId) {
     var lstCountries = $("#" + lstCountryId);
