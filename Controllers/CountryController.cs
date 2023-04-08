@@ -9,9 +9,11 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
 using iTextSharp.text.html.simpleparser;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AdvanceAjaxCRUD.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CountryController : Controller
     {
 

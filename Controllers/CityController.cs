@@ -1,11 +1,13 @@
 ﻿using AdvanceAjaxCRUD.Data;
 using AdvanceAjaxCRUD.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace AdvanceAjaxCRUD.Controllers
 {
+    [Authorize(Roles = "Admin,User")]
     public class CityController : Controller
     {
 
