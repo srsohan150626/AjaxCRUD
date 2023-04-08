@@ -22,10 +22,15 @@ namespace AdvanceAjaxCRUD.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int pageNumber = 1, int pageSize = 2)
         {
             List<Country> countries;
-            countries = _context.Countries.ToList();
+            countries = _context.Countries.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            var totalCount = _context.Countries.Count();
+
+            ViewBag.TotalCount = totalCount;
+            ViewBag.PageSize = pageSize;
+            ViewBag.PageNumber = pageNumber;
             return View(countries);
         }
 

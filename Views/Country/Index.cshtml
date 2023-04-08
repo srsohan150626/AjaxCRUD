@@ -10,7 +10,7 @@
     <a asp-action="Create">Create New</a>
 </p>
 <div id="Grid">
-    <table class="table">
+    <table id="myTable" class="table display">
         <thead>
             <tr>
                 <th>
@@ -47,6 +47,29 @@
             }
         </tbody>
     </table>
+    <div class="pagination">
+        @if (ViewBag.PageNumber > 1)
+        {
+            <a href="/Country/Index?pageNumber=@(ViewBag.PageNumber - 1)&amp;pageSize=@ViewBag.PageSize">Previous</a>
+        }
+
+        @for (int i = 1; i <= Math.Ceiling((double)ViewBag.TotalCount / ViewBag.PageSize); i++)
+        {
+            if (i == ViewBag.PageNumber)
+            {
+                <a class="text-danger" href="#">@i</a>
+            }
+            else
+            {
+                <a href="/Country/Index?pageNumber=@i&amp;pageSize=@ViewBag.PageSize">@i</a>
+            }
+        }
+
+        @if (ViewBag.PageNumber < Math.Ceiling((double)ViewBag.TotalCount / ViewBag.PageSize))
+        {
+            <a href="/Country/Index?pageNumber=@(ViewBag.PageNumber + 1)&amp;pageSize=@ViewBag.PageSize">Next</a>
+        }
+    </div>
 </div>
 
 <br />
@@ -57,6 +80,19 @@
     <input type="submit" id="exportbtnSubmit" value="Export" />
 }
 @section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "paging": false,
+                "pageLength": 10,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+            });
+        });
+    </script>
     <script type="text/javascript">
         $(function () {
             $("#exportbtnSubmit").click(function () {
