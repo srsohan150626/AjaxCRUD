@@ -114,6 +114,27 @@ namespace AdvanceAjaxCRUD.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("AdvanceAjaxCRUD.Models.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Post");
+                });
+
             modelBuilder.Entity("AdvanceAjaxCRUD.Models.City", b =>
                 {
                     b.HasOne("AdvanceAjaxCRUD.Models.Country", "Country")
