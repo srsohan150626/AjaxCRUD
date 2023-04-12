@@ -33,6 +33,10 @@ namespace AdvanceAjaxCRUD.Controllers
             ViewBag.TotalCount = totalCount;
             ViewBag.PageSize = pageSize;
             ViewBag.PageNumber = pageNumber;
+            //if (TempData["SuccessMessage"] != null)
+            //{
+            //    ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            //}
             return View(countries);
         }
 
@@ -49,6 +53,7 @@ namespace AdvanceAjaxCRUD.Controllers
         {
             _context.Add(country);
             _context.SaveChanges();
+            TempData["SuccessMessage"] = "Country has been created successfully.";
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]

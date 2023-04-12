@@ -7,7 +7,8 @@ using System.Security.Claims;
 using Microsoft.Data.SqlClient;
 using System.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-
+using AdvanceAjaxCRUD.Migrations;
+using Newtonsoft.Json;
 
 namespace AdvanceAjaxCRUD.Controllers
 {
@@ -103,6 +104,15 @@ namespace AdvanceAjaxCRUD.Controllers
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var authProperties = new AuthenticationProperties() { IsPersistent = viewModel.IsPersistant };
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                    // Authenticate user and get user's information
+
+                    var sessionModel = new Session
+                    {
+                        UserId = 1,
+                        Role = "Admin"
+                    };
+
+                    HttpContext.Session.SetString("SessionModel", JsonConvert.SerializeObject(sessionModel));
                     return Redirect("/");
                 }
                 else
