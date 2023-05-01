@@ -10,6 +10,7 @@ using AdvanceAjaxCRUD.Models;
 using iTextSharp.text.pdf;
 using iTextSharp.text;
 using iTextSharp.text.html.simpleparser;
+using AdvanceAjaxCRUD.Helper;
 
 namespace AdvanceAjaxCRUD.Controllers
 {
@@ -163,7 +164,7 @@ namespace AdvanceAjaxCRUD.Controllers
         {
             return _context.Post.Any(e => e.Id == id);
         }
-        public FileResult GeneratePDF(int id)
+        public  FileResult GeneratePDF(int id)
         {
             // Retrieve dynamic content from the database
             string recipientName = "Md Sohanur Rahaman"; // dynamic Name of the Recipent
@@ -177,6 +178,8 @@ namespace AdvanceAjaxCRUD.Controllers
             string senderName = "Company Secretary"; // Name of the sender
             string jobPosition = "General Manager"; // Job Position
             string companyName = "Pubali Bank Limited"; // Company Name
+
+            var post =  _context.Post.FirstOrDefault(m => m.Id == id);
 
             // Create a string variable to hold the invitation letter template with placeholders for the dynamic content
             string template = @"
@@ -197,6 +200,7 @@ namespace AdvanceAjaxCRUD.Controllers
             <br/>
             <p>I am looking forward to your presence at the business convention.</p>
              <br/>
+             <p>[Post]</p>
             <p>Yours faithfully,</p>
 
             <p>Name and Signature<br>Job Position<br>Company Name</p>";
@@ -212,13 +216,18 @@ namespace AdvanceAjaxCRUD.Controllers
                                .Replace("[Company Addresss]", companyAddress)
                                .Replace("Name and Signature", senderName)
                                .Replace("Job Position", jobPosition)
-                               .Replace("Company Name", companyName);
+                               .Replace("Company Name", companyName)
+                               .Replace("[Post]", post.Content);
             // Create a new Document object
             Document document = new Document(PageSize.A4, 50, 50, 25, 25);
 
             // Create a new PdfWriter that will write to a MemoryStream
             MemoryStream stream = new MemoryStream();
             PdfWriter writer = PdfWriter.GetInstance(document, stream);
+
+
+            // Set the custom page event helper
+            writer.PageEvent = new CustomPdfPageEventHelper();
 
             // Open the Document
             document.Open();
@@ -251,6 +260,7 @@ namespace AdvanceAjaxCRUD.Controllers
             string fileName = "invitation_letter.pdf";
             return File(fileContents, "application/pdf", fileName);
         }
+       
 
     }
 }
